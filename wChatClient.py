@@ -2,7 +2,7 @@
 import socket
 
 class wChatClient:
-   host = ''
+   host = '127.0.0.1'
    port = 45575
 
    def __init__(self, host, port):
@@ -11,11 +11,19 @@ class wChatClient:
 
    def run(self):
       s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-      s.connect((self.host, self.port))
-      s.sendall('Hello, world')
-      data = s.recv(1024)
-      s.close()
-      print 'Received', repr(data)
 
-s = wChatClient('',45575)
+      print 'Connecting to (%s,%s)' % (self.host, self.port)
+      s.connect((self.host, self.port))
+
+      m = 'Hello, World!'
+      print 'Sending: ', m
+      s.sendall(m)
+
+      data = s.recv(1024)
+      print 'Received: ', repr(data)
+
+      print 'Closing connection to (%s,%s)' % (self.host, self.port)
+      s.close()
+
+s = wChatClient('127.0.0.1',45575)
 s.run()
